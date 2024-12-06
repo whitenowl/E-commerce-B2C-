@@ -1,0 +1,72 @@
+<header>
+  <div class="top-header">
+    <div class="logo cursor-pointer" routerLink="/">
+      <!-- <a href="/">
+          <img src="logo.png" alt="Your Logo" />
+        </a> -->
+      <span class="text-xl">Mobily</span>
+    </div>
+    @if(authService.isLoggedIn){
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search for products..."
+        (keyup.enter)="onSearch($event)"
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+  }
+    <!-- <div class="search-bar flex-grow mx-4">
+      <input
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Search for products..."
+        (keyup.enter)="onSearch($event)"
+      />
+    </div> -->
+
+    <div class="profile-link flex gap-2 items-center">
+      @if(authService.isAdmin){
+      <a routerLink="/admin">
+        {{ authService.userName }}
+      </a>
+      }@else{
+      <a routerLink="/profile">
+        {{ authService.userName }}
+      </a>
+      } @if(authService.isLoggedIn){
+        @if(!authService.isAdmin){
+        <a routerLink="/wishlists">
+          <mat-icon class="text-red-600">favorite</mat-icon>
+        </a>
+        <a routerLink="/cart">
+          <mat-icon >shopping_cart</mat-icon>
+        </a>
+        <a routerLink="/orders">
+          Orders
+        </a>
+      }
+        
+      <a href="#" (click)="logout()" class="cursor-pointer ml-2"> LogOut </a>
+      }@else
+      {
+      <a routerLink="/login" class="cursor-pointer ml-2">LogIn</a>
+      <a routerLink="/register" class="cursor-pointer ml-2">Register</a>
+
+      }
+    </div>
+  </div>
+  @if(authService.isLoggedIn){
+  <div class="bottom-header">
+    <nav class="category-menu">
+      <ul>
+        @for(category of categoryList; track $index){
+        <li (click)="searchCategory(category._id)" class="cursor-pointer">
+          <a>{{ category.name }}</a>
+        </li>
+        }
+      </ul>
+    </nav>
+  </div>
+  } 
+</header>

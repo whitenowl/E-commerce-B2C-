@@ -1,0 +1,62 @@
+<div class="py-10 px-6 md:px-20 bg-gray-100 min-h-screen">
+  <h3 class="text-3xl font-bold text-gray-800 mb-8 text-center">Track Your Orders</h3>
+  <div class="space-y-12">
+    <!-- Loop through orders -->
+    @for (order of orders; track $index) {
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 mb-6">
+          <div>
+            <p class="text-sm text-gray-500">Order ID: <span class="font-medium">{{ order._id }}</span></p>
+            <p class="text-sm text-gray-500">Placed On: <span class="font-medium">{{ order.date | date: "mediumDate" }}</span></p>
+            <h6 class="text-lg font-semibold mt-4">Customer Information</h6>
+            <p class="text-sm text-gray-700"><i class="fa fa-map-marker text-red-500"></i> Address: {{ order.address.address1 }}</p>
+            <p class="text-sm text-gray-700"><i class="fa fa-phone text-green-500"></i> Phone: {{ order.address.address2 }}</p>
+            <p class="text-sm text-gray-700"><i class="fa fa-city text-blue-500"></i> City: {{ order.address.city }}</p>
+            <p class="text-sm text-gray-700"><i class="fa fa-mail-bulk text-orange-500"></i> PostCode: {{ order.address.pincode }}</p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <mat-button-toggle-group
+              [value]="order.status"
+              name="status"
+              aria-label="Order Status"
+              (change)="statusChange($event, order)"
+              class="flex"
+            >
+              <mat-button-toggle value="Processing" class="text-sm">Processing</mat-button-toggle>
+              <mat-button-toggle value="In Transit" class="text-sm">In Transit</mat-button-toggle>
+              <mat-button-toggle value="Completed" class="text-sm">Completed</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+        <!-- Order Items -->
+        <div>
+          @for (item of order.items; track $index) {
+            <div class="flex justify-between items-center mb-6 pb-4 border-b last:border-none">
+              <div class="flex items-start gap-6">
+                <img
+                  [src]="item.product.images[0]"
+                  alt="{{ item.product.name }}"
+                  class="w-20 h-20 object-cover rounded shadow"
+                />
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-800">{{ item.product.name }}</h4>
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-400 line-through">Rs.{{ item.product.price }}</span>
+                    <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">{{ item.product.discount }}% OFF</span>
+                    <span class="text-lg text-green-600 font-bold">Rs.{{ sellingPrice(item.product) }}</span>
+                  </div>
+                  <p class="text-sm text-gray-600">Quantity: <span class="font-medium">{{ item.quantity }}</span></p>
+                  <p class="text-sm text-gray-600">Total: <span class="font-bold">Rs.{{ sellingPrice(item.product) * item.quantity }}</span></p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <!-- Total Amount -->
+        <div class="mt-6">
+          <h5 class="text-lg font-semibold text-gray-800">Total Amount: <span class="text-green-600">Rs.{{ getTotalAmount(order) }}</span></h5>
+        </div>
+      </div>
+    }
+  </div>
+</div>

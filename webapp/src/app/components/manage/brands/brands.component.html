@@ -1,0 +1,47 @@
+<div class="px-4 md:px-10 lg:px-40 mt-10">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+    <h1 class="text-2xl font-bold mb-4 md:mb-0">Manage Brand</h1>
+    <button mat-raised-button color="primary" class="mr-0 md:mr-4 w-full md:w-auto" routerLink="/admin/brands/add">Add new Brand</button>
+  </div>
+  <div class="shadow mt-6">
+    <mat-form-field class="w-full">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+    </mat-form-field>
+
+    <div class="overflow-x-auto">
+      <table mat-table [dataSource]="dataSource" matSort class="min-w-full">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{ row._id }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-raised-button color="accent" class="mr-2 w-full md:w-auto" [routerLink]="'/admin/brands/' + row._id">Edit</button>
+            <button mat-raised-button color="warn" class="w-full md:w-auto" (click)="delete(row._id)">Delete</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select"></mat-paginator>
+  </div>
+</div>

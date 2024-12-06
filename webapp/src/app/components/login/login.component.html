@@ -1,0 +1,37 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+    <h2 class="text-4xl font-extrabold mb-8 text-center text-gray-800 tracking-wide border-b-4 border-blue-500 pb-2">
+      Login
+    </h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <!-- Email Input -->
+      <div class="mb-4">
+        <mat-form-field class="w-full">
+          <mat-label for="email">Email</mat-label>
+          <input type="email" required matInput formControlName="email" />
+        </mat-form-field>
+      </div>
+      <!-- Password Input -->
+      <div class="mb-6">
+        <mat-form-field class="w-full">
+          <mat-label for="password">Password</mat-label>
+          <input type="password" formControlName="password" placeholder="Enter your password" required matInput />
+        </mat-form-field>
+      </div>
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="text-red-500 text-sm mb-4">
+        {{ errorMessage }}
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" mat-raised-button [disabled]="loginForm.invalid">Login</button>
+    </form>
+
+    <!-- Register Link -->
+    <div class="mt-4 text-center">
+      <p class="text-sm text-gray-600">
+        Don't have an account? 
+        <a routerLink="/register" class="text-blue-500 hover:underline">Register</a>
+      </p>
+    </div>
+  </div>
+</div>

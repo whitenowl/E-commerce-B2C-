@@ -1,0 +1,66 @@
+<div class="px-4 sm:px-10 lg:px-40 mt-10">
+  <div class="flex flex-wrap justify-between items-center mb-4">
+    <h1 class="text-lg sm:text-xl font-bold">Manage Product</h1>
+    <button mat-raised-button color="primary" class="mt-2 sm:mt-0" routerLink="/admin/products/add">Add new Product</button>
+  </div>
+  <div class="shadow">
+    <mat-form-field class="w-full">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+  
+    <div class="overflow-x-auto">
+      <table mat-table [dataSource]="dataSource" matSort class="min-w-full">
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row._id}} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+
+        <!-- Short Description Column -->
+        <ng-container matColumnDef="shortdescription">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Short Description </th>
+          <td mat-cell *matCellDef="let row"> {{row.shortdescription}} </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+          <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+        </ng-container>
+
+        <!-- Discount Column -->
+        <ng-container matColumnDef="discount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+          <td mat-cell *matCellDef="let row"> {{row.discount}} </td>
+        </ng-container>
+    
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-raised-button color="accent" class="mr-2 mb-2" [routerLink]="'/admin/products/'+row._id">Edit</button>
+            <button mat-raised-button color="warn" class="mb-2" (click)="delete(row._id)">Delete</button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+        <!-- No data row -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="6">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+    </div>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select"></mat-paginator>
+  </div>
+</div>
